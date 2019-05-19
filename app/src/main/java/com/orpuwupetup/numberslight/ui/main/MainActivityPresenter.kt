@@ -17,7 +17,7 @@ class MainActivityPresenter @Inject constructor(
     override fun takeView(view: MainActivityContract.View) {
         this.view = view
 
-
+        // TODO check if cache is dirty via cache manager
         numbersRepository.getNumbersJSON()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

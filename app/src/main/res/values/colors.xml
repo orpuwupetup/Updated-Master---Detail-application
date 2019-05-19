@@ -3,4 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="backgroundSelected">#840000</color>
+    <color name="backgroundFocused">#015c0b</color>
+    <color name="backgroundPressed">#101999</color>
+    <color name="backgroundNormal">@android:color/transparent</color>
+
+    <color name="textOtherState">#ffffff</color>
+    <color name="textNormalState">#000000</color>
 </resources>

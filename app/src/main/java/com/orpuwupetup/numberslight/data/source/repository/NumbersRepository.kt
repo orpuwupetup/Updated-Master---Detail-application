@@ -1,6 +1,7 @@
 package com.orpuwupetup.numberslight.data.source.repository
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.orpuwupetup.numberslight.data.model.number.Number
 import com.orpuwupetup.numberslight.data.source.NumbersDataSource
 import io.reactivex.Single
@@ -45,9 +46,9 @@ class NumbersRepository @Inject constructor(
                 if (fetchedNumbers.isNotEmpty())
                     callback.onNumbersFetched(fetchedNumbers)
                 else
-                    callback.onError()
+                    callback.onError(null)
             }, {
-                callback.onError()
+                callback.onError(it)
             })
     }
 
@@ -66,6 +67,6 @@ class NumbersRepository @Inject constructor(
 
     interface NumbersFetchedCallback {
         fun onNumbersFetched(numbers: List<Number>)
-        fun onError()
+        fun onError(throwable: Throwable?)
     }
 }

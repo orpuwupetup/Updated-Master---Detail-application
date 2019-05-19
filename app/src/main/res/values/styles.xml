@@ -14,4 +14,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="NumberListItemNameTextStyle" parent="NumberNameTextStyle">
+        <item name="android:textColor">@color/state_dependant_text_color</item>
+        <item name="android:duplicateParentState">true</item>
+    </style>
+
 </resources>

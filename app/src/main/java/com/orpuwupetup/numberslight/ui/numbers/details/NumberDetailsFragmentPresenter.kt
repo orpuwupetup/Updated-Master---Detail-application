@@ -1,6 +1,8 @@
 package com.orpuwupetup.numberslight.ui.numbers.details
 
-class NumberDetailsFragmentPresenter: NumberDetailsFragmentContract.Presenter {
+import javax.inject.Inject
+
+class NumberDetailsFragmentPresenter @Inject constructor(): NumberDetailsFragmentContract.Presenter {
 
     override var view: NumberDetailsFragmentContract.View? = null
 

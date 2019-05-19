@@ -1,13 +1,14 @@
 package com.orpuwupetup.numberslight.di
 
 import com.orpuwupetup.numberslight.NumbersLightApplication
+import com.orpuwupetup.numberslight.api.di.NetModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class])
+@Component(modules = [AndroidSupportInjectionModule::class, NetModule::class])
 interface AppComponent {
 
     @Component.Builder

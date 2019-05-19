@@ -17,6 +17,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String","SERVER_BASE_URL","\"http://dev.tapptic.com/test/\""
     }
     buildTypes {
         release {

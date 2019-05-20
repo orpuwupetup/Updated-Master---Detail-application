@@ -1,7 +1,6 @@
 package com.orpuwupetup.numberslight.data.source.repository
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.orpuwupetup.numberslight.data.model.number.Number
 import com.orpuwupetup.numberslight.data.source.NumbersDataSource
 import io.reactivex.Single
@@ -20,7 +19,7 @@ class NumbersRepository @Inject constructor(
     // cache, to limit numbers of http calls and to provide data faster
     private val numbersCache: MutableList<Number> = mutableListOf()
 
-    override fun getNumbersJSON(): Single<List<Number>> {
+    override fun fetchNumbers(): Single<List<Number>> {
 
         if (!cacheIsDirty && numbersCache.isNotEmpty()) {
             return Single.just(numbersCache as List<Number>)
@@ -39,7 +38,7 @@ class NumbersRepository @Inject constructor(
     */
     @SuppressLint("CheckResult")
     fun getNumbers(callback: NumbersFetchedCallback) {
-        getNumbersJSON()
+        fetchNumbers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ fetchedNumbers ->
@@ -53,7 +52,7 @@ class NumbersRepository @Inject constructor(
     }
 
     private fun getAndSaveNumbersFromRemoteSource(): Single<List<Number>> {
-        return numbersDataSource.getNumbersJSON()
+        return numbersDataSource.fetchNumbers()
             .doOnSuccess { numbersFromRemoteSource ->
                 cacheIsDirty = false
                 numbersCache.clear()

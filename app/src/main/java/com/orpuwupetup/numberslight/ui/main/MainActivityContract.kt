@@ -5,7 +5,12 @@ import com.orpuwupetup.numberslight.ui.BaseView
 
 interface MainActivityContract {
 
-    interface View: BaseView<Presenter>
+    interface View: BaseView<Presenter> {
+        fun showNumberDetails(clickedNumberName: String)
 
-    interface Presenter: BasePresenter<View>
+    }
+
+    interface Presenter: BasePresenter<View> {
+        fun listNumberClicked(clickedNumberName: String)
+    }
 }

@@ -1,6 +1,8 @@
 package com.orpuwupetup.numberslight.ui.main
 
 import com.orpuwupetup.numberslight.di.annotations.ActivityScoped
+import com.orpuwupetup.numberslight.ui.numbers.list.NumbersListFragment
+import com.orpuwupetup.numberslight.utils.devicestate.DeviceStateChecker
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -13,6 +15,8 @@ abstract class MainActivityModule {
     @ActivityScoped
     internal abstract fun bindMainPresenter(presenter: MainActivityPresenter): MainActivityContract.Presenter
 
+
+
     @Module
     companion object {
 
@@ -22,5 +26,14 @@ abstract class MainActivityModule {
         fun provideCompositeDisposable(): CompositeDisposable {
             return CompositeDisposable()
         }
+
+        @Provides
+        @ActivityScoped
+        @JvmStatic
+        internal fun providesListFragment() = NumbersListFragment()
+
+        @Provides
+        @JvmStatic
+        internal fun provideDeviceStateChecker(context: MainActivity) = DeviceStateChecker(context)
     }
 }

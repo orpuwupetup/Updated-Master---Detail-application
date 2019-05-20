@@ -1,11 +1,10 @@
 package com.orpuwupetup.numberslight.di
 
 import com.orpuwupetup.numberslight.di.annotations.FragmentScoped
-import com.orpuwupetup.numberslight.ui.numbers.details.NumberDetailsFragment
-import com.orpuwupetup.numberslight.ui.numbers.details.NumberDetailsFragmentModule
+import com.orpuwupetup.numberslight.ui.numbers.details.fragment.NumberDetailsFragment
+import com.orpuwupetup.numberslight.ui.numbers.details.fragment.NumberDetailsFragmentModule
 import com.orpuwupetup.numberslight.ui.numbers.list.NumbersListFragment
 import com.orpuwupetup.numberslight.ui.numbers.list.NumbersListFragmentModule
-import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

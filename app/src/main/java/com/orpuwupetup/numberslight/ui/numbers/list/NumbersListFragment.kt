@@ -2,19 +2,17 @@ package com.orpuwupetup.numberslight.ui.numbers.list
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orpuwupetup.numberslight.R
 import com.orpuwupetup.numberslight.data.model.number.Number
-import com.orpuwupetup.numberslight.ui.AbstractDataLoadingFragment
+import com.orpuwupetup.numberslight.ui.AbstractFragment
 import com.orpuwupetup.numberslight.ui.numbers.list.adapter.NumbersAdapter
 import com.orpuwupetup.numberslight.utils.getScrollPosition
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_numbers_list.*
 import javax.inject.Inject
 
-class NumbersListFragment: AbstractDataLoadingFragment(), NumbersListFragmentContract.View {
+class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View {
 
     @Inject
     override lateinit var presenter: NumbersListFragmentContract.Presenter
@@ -53,8 +51,6 @@ class NumbersListFragment: AbstractDataLoadingFragment(), NumbersListFragmentCon
         NumbersListFragmentState(savedInstanceState?.getInt(LIST_SCROLL_KEY), savedInstanceState?.getInt(SELECTED_ITEM_KEY))
 
     private fun writeToBundle(outState: Bundle, state: NumbersListFragmentContract.State) {
-
-        Log.e("saved instance" , "scroll: ${state.getScroll()}")
         with(outState) {
             putInt(LIST_SCROLL_KEY, state.getScroll() ?: 0)
             putInt(SELECTED_ITEM_KEY, state.getSelectedItemPosition() ?: NumbersAdapter.NO_POSITION_SELECTED)
@@ -95,7 +91,7 @@ class NumbersListFragment: AbstractDataLoadingFragment(), NumbersListFragmentCon
         // ugly fix for known issue with RecyclerView scrolling problems
         Handler().postDelayed(
             {
-                list_numbers.scrollToPosition(scroll)
+                list_numbers?.scrollToPosition(scroll)
             }, 0
         )
     }

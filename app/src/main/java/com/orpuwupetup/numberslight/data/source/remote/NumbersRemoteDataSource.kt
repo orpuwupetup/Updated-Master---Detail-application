@@ -9,6 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class NumbersRemoteDataSource(private val numbersService: NumbersLightService): NumbersDataSource {
 
-    override fun getNumbersJSON(): Single<List<Number>> =
+    override fun fetchNumbers(): Single<List<Number>> =
             numbersService.getNumbersJson()
+
 }

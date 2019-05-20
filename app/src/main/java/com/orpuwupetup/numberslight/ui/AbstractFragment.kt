@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 
-abstract class AbstractDataLoadingFragment: DaggerFragment() {
+abstract class AbstractFragment: DaggerFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(getFragmentLayout(), null)

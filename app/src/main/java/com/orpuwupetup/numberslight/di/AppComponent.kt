@@ -2,6 +2,7 @@ package com.orpuwupetup.numberslight.di
 
 import com.orpuwupetup.numberslight.NumbersLightApplication
 import com.orpuwupetup.numberslight.api.di.NetModule
+import com.orpuwupetup.numberslight.data.di.NumberDetailsRepositoryModule
 import com.orpuwupetup.numberslight.data.di.NumbersRepositoryModule
 import dagger.BindsInstance
 import dagger.Component
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [ActivityInjectionModule::class, AndroidSupportInjectionModule::class, FragmentInjectionModule::class,
-        NetModule::class, NumbersRepositoryModule::class]
+        NetModule::class, NumberDetailsRepositoryModule::class, NumbersRepositoryModule::class]
 )
 interface AppComponent {
 

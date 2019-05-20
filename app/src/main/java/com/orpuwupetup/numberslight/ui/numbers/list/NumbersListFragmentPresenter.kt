@@ -71,7 +71,7 @@ class NumbersListFragmentPresenter @Inject constructor(
 
     override fun onItemClicked(clickedItemPosition: Int, selectedItemName: String) {
         this.selectedItemPosition = clickedItemPosition
-        view?.notifyListenersAboutItemClicked(selectedItemName, clickedItemPosition)
+        view?.notifyListenersAboutItemClicked(selectedItemName)
     }
 
     override fun onScrollChanged(scroll: Int) {

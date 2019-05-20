@@ -2,14 +2,12 @@ package com.orpuwupetup.numberslight.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.FragmentManager
 import com.orpuwupetup.numberslight.R
 import com.orpuwupetup.numberslight.ui.AbstractFragmentContainingActivity
 import com.orpuwupetup.numberslight.ui.numbers.details.NumberDetailActivity
 import com.orpuwupetup.numberslight.ui.numbers.details.fragment.NumberDetailsFragment
 import com.orpuwupetup.numberslight.ui.numbers.list.NumbersListFragment
-import com.orpuwupetup.numberslight.ui.numbers.list.adapter.NumbersAdapter
 import javax.inject.Inject
 
 class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.View,
@@ -27,11 +25,7 @@ class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.
     companion object {
         const val LIST_FRAGMENT_KEY = "listFragment"
         const val DETAIL_FRAGMENT_KEY = "detailFragment"
-
         const val NUMBER_NAME = "number_name"
-        const val LIST_SCROLL_POSITION = "list_scroll_position"
-        const val SELECTED_ITEM_POSITION = "selected_item_position"
-
         const val NO_ITEM_DETAILS_DISPLAYED = "no_details"
     }
 
@@ -55,8 +49,6 @@ class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.
 
     private fun readFromBundle(savedInstanceState: Bundle?): MainActivityContract.State =
         MainActivityState(
-            savedInstanceState?.getInt(LIST_SCROLL_POSITION),
-            savedInstanceState?.getInt(SELECTED_ITEM_POSITION),
             savedInstanceState?.getString(NUMBER_NAME)
         )
 
@@ -74,8 +66,6 @@ class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.
 
     private fun writeToBundle(outState: Bundle, state: MainActivityContract.State) {
         with(outState) {
-            putInt(LIST_SCROLL_POSITION, state.getListScrollPosition() ?: 0)
-            putInt(SELECTED_ITEM_POSITION, state.getSelectedItemPosition() ?: NumbersAdapter.NO_POSITION_SELECTED)
             putString(NUMBER_NAME, state.getDisplayedItemName() ?: NO_ITEM_DETAILS_DISPLAYED)
         }
     }
@@ -98,10 +88,10 @@ class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.
         numberDetailsFragment.showNewNumberDetails(numberName)
     }
 
-    override fun showMasterDetailLayout(numberName: String, selectedNumberPosition: Int) {
+    override fun showMasterDetailLayout(currentNumberDetailsName: String) {
 
         // just making sure that detail fragment will display correct value
-        numberDetailsFragment.setNameOfNumberDetailsToShow(numberName)
+        numberDetailsFragment.setNameOfNumberDetailsToShow(currentNumberDetailsName)
 
         showTabletPortraitListFragment()
         showFragment(numberDetailsFragment, R.id.container_tablet_landscape_details)
@@ -111,7 +101,7 @@ class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.
          because it is lateinit property, and if if detail fragment is already added, I can be quite sure that all is set
         */
         if (numberDetailsFragment.isAdded)
-            numberDetailsFragment.showNewNumberDetails(numberName)
+            numberDetailsFragment.showNewNumberDetails(currentNumberDetailsName)
     }
 
     private fun showTabletPortraitListFragment() {
@@ -133,12 +123,12 @@ class MainActivity : AbstractFragmentContainingActivity(), MainActivityContract.
         showFragment(numbersListFragment, R.id.container)
     }
 
-    override fun setTabletPortraitLayout(selectedNumberPosition: Int) {
+    override fun setTabletPortraitLayout() {
         removeListFragment()
         showFragment(numbersListFragment, R.id.container_tablet_portrait)
     }
 
-    override fun onNumberClicked(clickedNumberName: String, clickedNumberIndex: Int) {
-        presenter.listNumberClicked(clickedNumberName, clickedNumberIndex)
+    override fun onNumberClicked(clickedNumberName: String) {
+        presenter.listNumberClicked(clickedNumberName)
     }
 }

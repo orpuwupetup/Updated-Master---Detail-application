@@ -2,7 +2,6 @@ package com.orpuwupetup.numberslight.ui.numbers.list
 
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.orpuwupetup.numberslight.R
 import com.orpuwupetup.numberslight.data.model.number.Number
@@ -100,11 +99,11 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
         this.numberClickedListener = listener
     }
 
-    override fun notifyListenersAboutItemClicked(selectedItemName: String, clickedItemPosition: Int) {
-        numberClickedListener?.onNumberClicked(selectedItemName, clickedItemPosition)
+    override fun notifyListenersAboutItemClicked(clickedItemName: String) {
+        numberClickedListener?.onNumberClicked(clickedItemName)
     }
 
     interface NumberClickedListener {
-        fun onNumberClicked(clickedNumberName: String, clickedNumberIndex: Int)
+        fun onNumberClicked(clickedNumberName: String)
     }
 }

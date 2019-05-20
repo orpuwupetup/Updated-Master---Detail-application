@@ -8,20 +8,18 @@ interface MainActivityContract {
 
     interface View: BaseView<Presenter> {
         fun showNumberDetailsForPhoneAndPortraitTablet(clickedNumberName: String)
-        fun showMasterDetailLayout(numberName: String, selectedNumberPosition: Int)
+        fun showMasterDetailLayout(currentNumberDetailsName: String)
         fun showMasterDetailLayoutDetails(numberName: String)
 
         fun setPhoneLayout()
-        fun setTabletPortraitLayout(selectedNumberPosition: Int)
+        fun setTabletPortraitLayout()
     }
 
     interface Presenter: BaseStatefulPresenter<View, State> {
-        fun listNumberClicked(clickedNumberName: String, clickedNumberIndex: Int)
+        fun listNumberClicked(clickedNumberName: String)
     }
 
     interface State: BaseState {
-        fun getListScrollPosition(): Int?
-        fun getSelectedItemPosition(): Int?
         fun getDisplayedItemName(): String?
     }
 }

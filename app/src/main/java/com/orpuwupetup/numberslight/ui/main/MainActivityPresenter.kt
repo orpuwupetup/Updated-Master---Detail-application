@@ -1,7 +1,5 @@
 package com.orpuwupetup.numberslight.ui.main
 
-import android.util.Log
-import com.orpuwupetup.numberslight.ui.numbers.list.adapter.NumbersAdapter
 import com.orpuwupetup.numberslight.utils.devicestate.DeviceStateChecker
 import javax.inject.Inject
 
@@ -10,8 +8,10 @@ class MainActivityPresenter @Inject constructor(private val deviceStateChecker: 
 
     override var view: MainActivityContract.View? = null
 
-    private var selectedItemPosition: Int? = null
-    private var listScrollPosition: Int? = null
+    /*
+     I decided to keep view state in its presenter, their lifecycles are tied closely together and I thought that making
+     another repository for state alone is too cumbersome, but I could be wrong here
+    */
     private var displayedItemName: String? = null
 
     override fun takeView(view: MainActivityContract.View) {
@@ -21,9 +21,7 @@ class MainActivityPresenter @Inject constructor(private val deviceStateChecker: 
     override fun takeView(view: MainActivityContract.View, state: MainActivityContract.State?) {
         this.view = view
 
-        listScrollPosition = state?.getListScrollPosition()
 
-        selectedItemPosition = state?.getSelectedItemPosition()
 
         displayedItemName = state?.getDisplayedItemName()
 
@@ -32,17 +30,16 @@ class MainActivityPresenter @Inject constructor(private val deviceStateChecker: 
         else {
             if (deviceStateChecker.isLandscape()) {
                 view.showMasterDetailLayout(
-                    displayedItemName ?: MainActivity.NO_ITEM_DETAILS_DISPLAYED,
-                    selectedItemPosition ?: NumbersAdapter.NO_POSITION_SELECTED
+                    displayedItemName ?: MainActivity.NO_ITEM_DETAILS_DISPLAYED
                 )
             } else {
-                view.setTabletPortraitLayout(selectedItemPosition ?: NumbersAdapter.NO_POSITION_SELECTED)
+                view.setTabletPortraitLayout()
             }
         }
     }
 
     override fun getState(): MainActivityContract.State =
-        MainActivityState(listScrollPosition, selectedItemPosition, displayedItemName)
+        MainActivityState(displayedItemName)
 
     override fun dropView() {
         this.view = null
@@ -51,12 +48,11 @@ class MainActivityPresenter @Inject constructor(private val deviceStateChecker: 
          delete view state, view is no longer associated with this presenter, so presenter shouldn't keep track of
          its state
         */
-        selectedItemPosition = null
-        listScrollPosition = null
+
         displayedItemName = null
     }
 
-    override fun listNumberClicked(clickedNumberName: String, clickedNumberIndex: Int) {
+    override fun listNumberClicked(clickedNumberName: String) {
 
         if (!deviceStateChecker.isTablet() || deviceStateChecker.isTabletInPortraitMode())
             view?.showNumberDetailsForPhoneAndPortraitTablet(clickedNumberName)
@@ -64,6 +60,5 @@ class MainActivityPresenter @Inject constructor(private val deviceStateChecker: 
             view?.showMasterDetailLayoutDetails(clickedNumberName)
 
         displayedItemName = clickedNumberName
-        selectedItemPosition = clickedNumberIndex
     }
 }

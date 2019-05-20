@@ -8,6 +8,8 @@ interface NumberDetailsFragmentContract {
 
     interface View: BaseView<Presenter> {
         fun displayNumberDetails(numberDetails: NumberDetails)
+        fun showFetchingDataError()
+        fun showNoInternetConnectionWarning()
     }
 
     interface Presenter: BasePresenter<View> {

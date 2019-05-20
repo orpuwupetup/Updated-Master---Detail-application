@@ -2,6 +2,7 @@ package com.orpuwupetup.numberslight.ui.numbers.list
 
 import com.orpuwupetup.numberslight.di.annotations.FragmentScoped
 import com.orpuwupetup.numberslight.ui.numbers.list.adapter.NumbersAdapter
+import com.orpuwupetup.numberslight.utils.network.NetworkConnectionChecker
 import com.squareup.picasso.Picasso
 import dagger.Binds
 import dagger.Module
@@ -23,5 +24,11 @@ abstract class NumbersListFragmentModule {
         @Provides
         internal fun provideNumbersAdapter(fragment: NumbersListFragment) =
                 NumbersAdapter(fragment.requireContext(), mutableListOf(), PublishSubject.create(), Picasso.get())
+
+        @FragmentScoped
+        @JvmStatic
+        @Provides
+        internal fun provideConnectionChecker(fragment: NumbersListFragment) =
+                NetworkConnectionChecker(fragment.requireContext())
     }
 }

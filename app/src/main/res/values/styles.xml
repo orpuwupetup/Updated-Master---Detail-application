@@ -19,4 +19,12 @@
         <item name="android:duplicateParentState">true</item>
     </style>
 
+    <style name="ErrorViewTextStyle">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:textSize">@dimen/material_design_large_font_size</item>
+    </style>
+
 </resources>

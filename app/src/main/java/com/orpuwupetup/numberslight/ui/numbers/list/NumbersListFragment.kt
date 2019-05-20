@@ -2,6 +2,7 @@ package com.orpuwupetup.numberslight.ui.numbers.list
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.orpuwupetup.numberslight.R
 import com.orpuwupetup.numberslight.data.model.number.Number
@@ -69,6 +70,9 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
     }
 
     override fun showNumbersList(numbers: List<Number>) {
+        text_error.visibility = View.GONE
+        button_retry.visibility = View.GONE
+
         adapter.replaceData(numbers)
     }
 
@@ -80,6 +84,10 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
                     presenter.onScrollChanged(recyclerView.getScrollPosition())
                 }
             })
+
+        button_retry.setOnClickListener {
+            tryToFetchList()
+        }
     }
 
     override fun setScrollPosition(scroll: Int) {
@@ -95,12 +103,32 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
         adapter.setSelectedItem(itemPosition)
     }
 
+    override fun showFetchingDataError() {
+        text_error?.apply {
+            visibility = View.VISIBLE
+            text = getString(R.string.data_fetching_error)
+        }
+    }
+
+    fun tryToFetchList() {
+        presenter.tryToFetchList()
+        button_retry.animate().rotationBy(360f).setDuration(500)
+    }
+
+    override fun showNoInternetConnectionWarning() {
+        button_retry?.visibility = View.VISIBLE
+        text_error?.apply {
+            text = getString(R.string.internet_connection_error)
+            visibility = View.VISIBLE
+        }
+    }
+
     fun setOnNumberClickedListener(listener: NumberClickedListener?) {
         this.numberClickedListener = listener
     }
 
-    override fun notifyListenersAboutItemClicked(clickedItemName: String) {
-        numberClickedListener?.onNumberClicked(clickedItemName)
+    override fun notifyListenersAboutItemClicked(selectedItemName: String) {
+        numberClickedListener?.onNumberClicked(selectedItemName)
     }
 
     interface NumberClickedListener {

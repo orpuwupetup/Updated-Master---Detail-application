@@ -1,6 +1,7 @@
 package com.orpuwupetup.numberslight.ui.numbers.details.fragment
 
 import android.os.Bundle
+import android.view.View
 import com.orpuwupetup.numberslight.R
 import com.orpuwupetup.numberslight.data.model.number.details.NumberDetails
 import com.orpuwupetup.numberslight.ui.AbstractFragment
@@ -51,10 +52,26 @@ class NumberDetailsFragment : AbstractFragment(),
     }
 
     override fun displayNumberDetails(numberDetails: NumberDetails) {
+        text_error?.visibility = View.GONE
+
         text_number_name?.text = numberDetails.text
 
         image_number_photo?.let { imageView ->
             picasso.load(numberDetails.imageUrl).into(imageView)
+        }
+    }
+
+    override fun showFetchingDataError() {
+        text_error?.apply {
+            visibility = View.VISIBLE
+            text = getString(R.string.data_fetching_error)
+        }
+    }
+
+    override fun showNoInternetConnectionWarning() {
+        text_error?.apply {
+            visibility = View.VISIBLE
+            text = getString(R.string.internet_connection_error)
         }
     }
 }

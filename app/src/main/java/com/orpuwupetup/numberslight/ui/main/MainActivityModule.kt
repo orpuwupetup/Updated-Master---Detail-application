@@ -16,8 +16,6 @@ abstract class MainActivityModule {
     @ActivityScoped
     internal abstract fun bindMainPresenter(presenter: MainActivityPresenter): MainActivityContract.Presenter
 
-
-
     @Module
     companion object {
 

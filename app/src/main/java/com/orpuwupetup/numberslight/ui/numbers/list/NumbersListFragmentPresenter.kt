@@ -2,10 +2,12 @@ package com.orpuwupetup.numberslight.ui.numbers.list
 
 import com.orpuwupetup.numberslight.data.model.number.Number
 import com.orpuwupetup.numberslight.data.source.repository.NumbersRepository
+import com.orpuwupetup.numberslight.utils.network.NetworkConnectionChecker
 import javax.inject.Inject
 
 class NumbersListFragmentPresenter @Inject constructor(
-    private val numbersRepository: NumbersRepository
+    private val numbersRepository: NumbersRepository,
+    private val networkConnectionChecker: NetworkConnectionChecker
 ): NumbersListFragmentContract.Presenter {
 
     override var view: NumbersListFragmentContract.View? = null
@@ -41,21 +43,31 @@ class NumbersListFragmentPresenter @Inject constructor(
         NumbersListFragmentState(numbersListScrollPosition, selectedItemPosition)
 
     private fun fetchNumbersList() {
-        /*
+        if (networkConnectionChecker.isNetworkConnected()) {
+            /*
         Here I should check if numbers cache has expired or not (for example save caching time every time it is done, and
         than compare it here) and if it has, call numbersRepository.refresh(), but it is not needed for now, because I
         know that data from the link is quite static, and besides, cache will refresh itself every time the app is
         killed by user or by Android itself
          */
-        numbersRepository.getNumbers(object: NumbersRepository.NumbersFetchedCallback {
-            override fun onNumbersFetched(numbers: List<Number>) {
-                view?.showNumbersList(numbers)
-            }
+            numbersRepository.getNumbers(object : NumbersRepository.NumbersFetchedCallback {
+                override fun onNumbersFetched(numbers: List<Number>) {
+                    view?.showNumbersList(numbers)
+                }
 
-            override fun onError(throwable: Throwable?) {
-                throwable?.printStackTrace()
-            }
-        })
+                override fun onError(throwable: Throwable?) {
+                    view?.showFetchingDataError()
+                }
+            })
+        } else {
+            // refreshing repository to fetch new data from remote after internet reconnection
+            numbersRepository.refresh()
+            view?.showNoInternetConnectionWarning()
+        }
+    }
+
+    override fun tryToFetchList() {
+        fetchNumbersList()
     }
 
     override fun dropView() {

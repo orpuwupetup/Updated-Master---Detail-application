@@ -1,4 +1,3 @@
 package com.orpuwupetup.numberslight.ui
 
-interface BaseState {
-}
+interface BaseState

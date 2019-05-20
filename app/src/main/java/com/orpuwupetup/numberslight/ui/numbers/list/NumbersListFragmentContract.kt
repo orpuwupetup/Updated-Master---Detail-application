@@ -12,7 +12,7 @@ interface NumbersListFragmentContract {
         fun showNumbersList(numbers: List<Number>)
         fun setScrollPosition(scroll: Int)
         fun setSelectedItem(itemPosition: Int)
-        fun notifyListenersAboutItemClicked(selectedItemName: String)
+        fun notifyListenersAboutItemClicked(selectedItemName: String, clickedItemPosition: Int)
     }
 
     interface Presenter: BaseStatefulPresenter<View, State> {

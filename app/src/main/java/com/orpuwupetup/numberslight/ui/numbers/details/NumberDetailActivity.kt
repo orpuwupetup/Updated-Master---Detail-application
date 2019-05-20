@@ -13,31 +13,36 @@ class NumberDetailActivity: AbstractFragmentContainingActivity(), NumberDetailAc
     override lateinit var presenter: NumberDetailActivityContract.Presenter
 
     @Inject
-    lateinit var detailsFagment: NumberDetailsFragment
+    lateinit var detailsFragment: NumberDetailsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_details)
-
         initViews()
-    }
-
-    private fun initViews() {
-        showFragment(detailsFagment, R.id.container_details_fragment)
-    }
-
-    override fun onResume() {
-        super.onResume()
         presenter.takeView(this)
     }
 
-    override fun onPause() {
-        super.onPause()
+    private fun initViews() {
+        showFragment(detailsFragment, R.id.container_details_fragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.dropView()
     }
 
     override fun notifyChildFragmentAboutNumberToDisplay(numberName: String) {
-        detailsFagment.loadNumberDetails(numberName)
+        if (!detailsFragment.isAdded)
+            detailsFragment.setNameOfNumberDetailsToShow(numberName)
+        else
+            detailsFragment.showNewNumberDetails(numberName)
+    }
+
+    /*
+     close activity if user is using tablet and he tries to switch to landscape, to show him main activity with
+     master-detail flow
+    */
+    override fun closeActivity() {
+        finish()
     }
 }

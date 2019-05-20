@@ -1,6 +1,7 @@
 package com.orpuwupetup.numberslight.ui.main
 
 import com.orpuwupetup.numberslight.di.annotations.ActivityScoped
+import com.orpuwupetup.numberslight.ui.numbers.details.fragment.NumberDetailsFragment
 import com.orpuwupetup.numberslight.ui.numbers.list.NumbersListFragment
 import com.orpuwupetup.numberslight.utils.devicestate.DeviceStateChecker
 import dagger.Binds
@@ -31,6 +32,11 @@ abstract class MainActivityModule {
         @ActivityScoped
         @JvmStatic
         internal fun providesListFragment() = NumbersListFragment()
+
+        @Provides
+        @ActivityScoped
+        @JvmStatic
+        internal fun providesDetailsFragment() = NumberDetailsFragment()
 
         @Provides
         @JvmStatic

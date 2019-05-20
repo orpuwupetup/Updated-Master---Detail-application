@@ -3,6 +3,7 @@ package com.orpuwupetup.numberslight.ui.numbers.details
 import com.orpuwupetup.numberslight.di.annotations.ActivityScoped
 import com.orpuwupetup.numberslight.ui.main.MainActivity
 import com.orpuwupetup.numberslight.ui.numbers.details.fragment.NumberDetailsFragment
+import com.orpuwupetup.numberslight.utils.devicestate.DeviceStateChecker
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,12 @@ abstract class NumberDetailActivityModule {
         @Provides
         @ActivityScoped
         @JvmStatic
-        internal fun getNumberNameFromIntent(context: NumberDetailActivity): String =
+        internal fun getNumberNameFromIntent(context: NumberDetailActivity): String? =
             context.intent.getStringExtra(MainActivity.NUMBER_NAME)
+
+        @Provides
+        @ActivityScoped
+        @JvmStatic
+        internal fun provideDeviceStateChecker(context: NumberDetailActivity) = DeviceStateChecker(context)
     }
 }

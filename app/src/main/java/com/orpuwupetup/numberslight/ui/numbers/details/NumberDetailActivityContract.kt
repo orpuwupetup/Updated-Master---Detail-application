@@ -7,6 +7,7 @@ interface NumberDetailActivityContract {
 
     interface View: BaseView<Presenter> {
         fun notifyChildFragmentAboutNumberToDisplay(numberName: String)
+        fun closeActivity()
     }
 
     interface Presenter: BasePresenter<View>

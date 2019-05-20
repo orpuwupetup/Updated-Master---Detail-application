@@ -13,4 +13,6 @@ class DeviceStateChecker(private val context: Context) {
 
     fun isTablet(): Boolean =
         context.resources.getBoolean(R.bool.isTablet)
+
+    fun isTabletInPortraitMode() = !isTablet() || (isTablet() && !isLandscape())
 }

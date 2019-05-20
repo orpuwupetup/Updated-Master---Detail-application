@@ -2,6 +2,7 @@ package com.orpuwupetup.numberslight.ui.numbers.list
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.orpuwupetup.numberslight.R
 import com.orpuwupetup.numberslight.data.model.number.Number
@@ -33,18 +34,14 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initViews()
+
+        presenter.takeView(this, readFromBundle(savedInstanceState))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
         writeToBundle(outState, presenter.getState())
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-
-        presenter.takeView(this, readFromBundle(savedInstanceState))
     }
 
     private fun readFromBundle(savedInstanceState: Bundle?): NumbersListFragmentContract.State =
@@ -87,7 +84,6 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
     }
 
     override fun setScrollPosition(scroll: Int) {
-
         // ugly fix for known issue with RecyclerView scrolling problems
         Handler().postDelayed(
             {
@@ -104,19 +100,11 @@ class NumbersListFragment: AbstractFragment(), NumbersListFragmentContract.View 
         this.numberClickedListener = listener
     }
 
-    fun setOnNumberClickedListener(doOnClick: (clickedNumberName: String) -> Unit) {
-        this.numberClickedListener = object : NumberClickedListener {
-            override fun onNumberClicked(clickedNumberName: String) {
-                doOnClick(clickedNumberName)
-            }
-        }
-    }
-
-    override fun notifyListenersAboutItemClicked(selectedItemName: String) {
-        numberClickedListener?.onNumberClicked(selectedItemName)
+    override fun notifyListenersAboutItemClicked(selectedItemName: String, clickedItemPosition: Int) {
+        numberClickedListener?.onNumberClicked(selectedItemName, clickedItemPosition)
     }
 
     interface NumberClickedListener {
-        fun onNumberClicked(clickedNumberName: String)
+        fun onNumberClicked(clickedNumberName: String, clickedNumberIndex: Int)
     }
 }

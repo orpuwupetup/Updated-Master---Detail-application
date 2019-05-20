@@ -1,6 +1,5 @@
 package com.orpuwupetup.numberslight.ui.numbers.list
 
-import android.util.Log
 import com.orpuwupetup.numberslight.data.model.number.Number
 import com.orpuwupetup.numberslight.data.source.repository.NumbersRepository
 import javax.inject.Inject
@@ -54,7 +53,6 @@ class NumbersListFragmentPresenter @Inject constructor(
             }
 
             override fun onError(throwable: Throwable?) {
-                Log.e("cos", "problem fetching data")
                 throwable?.printStackTrace()
             }
         })
@@ -64,7 +62,7 @@ class NumbersListFragmentPresenter @Inject constructor(
         this.view = null
 
         /*
-         delete state from model, view is no longer associated with this presenter, so presenter shouldn't keep track of
+         delete view state, view is no longer associated with this presenter, so presenter shouldn't keep track of
          its state
         */
         selectedItemPosition = null
@@ -73,7 +71,7 @@ class NumbersListFragmentPresenter @Inject constructor(
 
     override fun onItemClicked(clickedItemPosition: Int, selectedItemName: String) {
         this.selectedItemPosition = clickedItemPosition
-        view?.notifyListenersAboutItemClicked(selectedItemName)
+        view?.notifyListenersAboutItemClicked(selectedItemName, clickedItemPosition)
     }
 
     override fun onScrollChanged(scroll: Int) {
